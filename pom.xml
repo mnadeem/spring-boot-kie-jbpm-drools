@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-
+    <groupId>com.github.mnadeem</groupId>
     <artifactId>spring-boot-kie-jbpm-drools</artifactId>
     <packaging>pom</packaging>
     <name>Project demonstrating Drools, JBPM, KIE-Server, Business Central Using Spring</name>
@@ -12,6 +12,8 @@
     <modules>
         <module>drools-discount-kjar</module>
         <module>boot-drools-embedded</module>
+		<module>boot-drools-classpath</module>
+		<module>boot-drools-kie-ci</module>
         <module>boot-jbpm-kie-server</module>
         <module>boot-drools-service</module>
     </modules>
