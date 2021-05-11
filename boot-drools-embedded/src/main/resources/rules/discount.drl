@@ -1,0 +1,17 @@
+package rules;
+
+import com.github.mnadeem.discount.model.Sale;
+
+rule "DiscountForCarSale"
+	when
+		thisSale : Sale (quantity >= 5 , item == "Car");
+	then
+		thisSale.setDiscount(10);
+end;
+
+rule "DiscountForBikeSale"
+	when
+		thisSale : Sale (quantity >= 10 , item == "Bike");
+	then
+		thisSale.setDiscount(15);
+end;
