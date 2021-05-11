@@ -17,5 +17,6 @@
 		<module>boot-drools-kie-ci</module>
         <module>boot-jbpm-kie-server</module>
         <module>boot-drools-service</module>
+        <module>kie-business-central-standalone</module>
     </modules>
 </project>

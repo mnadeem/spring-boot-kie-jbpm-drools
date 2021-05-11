@@ -1,0 +1,132 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.github.mnadeem</groupId>
+		<artifactId>spring-boot-kie-jbpm-drools</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>kie-business-central-standalone</artifactId>
+
+	<properties>
+		<drools.version>7.53.0.Final</drools.version>
+		<org.wildfly.version>19.1.0.Final</org.wildfly.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.kie</groupId>
+			<artifactId>business-central</artifactId>
+			<version>${drools.version}</version>
+			<type>war</type>
+			<classifier>wildfly19</classifier>
+		</dependency>
+	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>windows</id>
+			<activation>
+				<os>
+					<family>Windows</family>
+				</os>
+			</activation>
+			<properties>
+				<script.extension>.bat</script.extension>
+			</properties>
+		</profile>
+		<profile>
+			<id>unix</id>
+			<activation>
+				<os>
+					<family>!Windows</family>
+				</os>
+			</activation>
+			<properties>
+				<script.extension>.sh</script.extension>
+			</properties>
+		</profile>
+	</profiles>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>unpack</id>
+						<phase>process-test-classes</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>org.wildfly</groupId>
+									<artifactId>wildfly-dist</artifactId>
+									<version>${org.wildfly.version}</version>
+									<type>zip</type>
+									<overWrite>false</overWrite>
+									<outputDirectory>target</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+					<execution>
+                        <id>copydep</id>
+                        <phase>process-test-classes</phase>
+                        <goals>
+                             <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeClassifiers>wildfly19</includeClassifiers>
+                            <outputDirectory>target</outputDirectory>
+                        </configuration>
+                    </execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- After we have wildfly installed, we copy some config files -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>wildfly-prepare</id>
+						<phase>process-test-classes</phase>
+						<!--phase>compile</phase -->
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<property name="wildfly.dir"
+									value="${project.basedir}/target/wildfly-${org.wildfly.version}" />
+								<echo
+									message=">>>> copy from ${project.basedir}/src/main/resources to ${wildfly.dir}/standalone/configuration/" />
+								<copy
+									file="${project.basedir}/src/main/resources/application-users.properties"
+									tofile="${wildfly.dir}/standalone/configuration/application-users.properties"
+									overwrite="true" />
+								<copy
+									file="${project.basedir}/src/main/resources/application-roles.properties"
+									tofile="${wildfly.dir}/standalone/configuration/application-roles.properties"
+									overwrite="true" />
+								<copy
+									file="${project.basedir}/src/main/resources/standalone.xml"
+									tofile="${wildfly.dir}/standalone/configuration/standalone.xml"
+									overwrite="true" />
+								<copy
+									file="${project.basedir}/target/business-central-${drools.version}-wildfly19.war"
+									tofile="${wildfly.dir}/standalone/deployments/business-central.war"
+									overwrite="true" />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
