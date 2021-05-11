@@ -113,10 +113,10 @@
 									file="${project.basedir}/src/main/resources/application-roles.properties"
 									tofile="${wildfly.dir}/standalone/configuration/application-roles.properties"
 									overwrite="true" />
-								<copy
+<!-- 								<copy
 									file="${project.basedir}/src/main/resources/standalone.xml"
 									tofile="${wildfly.dir}/standalone/configuration/standalone.xml"
-									overwrite="true" />
+									overwrite="true" /> -->
 								<copy
 									file="${project.basedir}/target/business-central-${drools.version}-wildfly19.war"
 									tofile="${wildfly.dir}/standalone/deployments/business-central.war"
