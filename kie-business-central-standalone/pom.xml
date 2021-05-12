@@ -118,6 +118,10 @@
 									tofile="${wildfly.dir}/standalone/configuration/standalone.xml"
 									overwrite="true" />
 								<copy
+									file="${project.basedir}/src/main/resources/standalone.conf"
+									tofile="${wildfly.dir}/standalone/configuration/standalone.conf"
+									overwrite="true" />
+								<copy
 									file="${project.basedir}/target/business-central-${drools.version}-wildfly19.war"
 									tofile="${wildfly.dir}/standalone/deployments/business-central.war"
 									overwrite="true" />
