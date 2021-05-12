@@ -118,8 +118,8 @@
 									tofile="${wildfly.dir}/standalone/configuration/standalone.xml"
 									overwrite="true" />
 								<copy
-									file="${project.basedir}/src/main/resources/standalone.conf"
-									tofile="${wildfly.dir}/standalone/configuration/standalone.conf"
+									file="${project.basedir}/src/main/resources/standalone.conf.bat"
+									tofile="${wildfly.dir}/bin/standalone.conf.bat"
 									overwrite="true" />
 								<copy
 									file="${project.basedir}/target/business-central-${drools.version}-wildfly19.war"
